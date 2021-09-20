@@ -76,7 +76,7 @@ by adding `credo_todo_or_die` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:credo_todo_or_die, "~> 0.1.0"}
+    {:credo_todo_or_die, "~> 0.2.0"}
   ]
 end
 ```
