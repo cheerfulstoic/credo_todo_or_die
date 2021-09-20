@@ -43,12 +43,9 @@ defmodule CredoTodoOrDie.Check do
   end
 
   defp items_with_index_from_comments(source_file, tag_name, params) do
-    regex = Regex.compile!("(\\A|[^\\?])#\\s*#{tag_name}:?\\s*.+", "i")
-    source = Credo.SourceFile.source(source_file)
-
     alert_options = alert_options(params)
 
-    source
+    Credo.SourceFile.source(source_file)
     |> Credo.Code.clean_charlists_strings_and_sigils()
     |> String.split("\n")
     |> TodoOrDie.Lines.items_for(tag_name)

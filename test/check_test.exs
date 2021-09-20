@@ -69,6 +69,26 @@ defmodule CredoTodoOrDie.CheckTest do
     end)
   end
 
+  # Should support this because most people will probably want to disable the built-in TODO/FIXME checks
+  test "Without expressions" do
+    code =
+      """
+      defmodule CredoSampleModule do
+        @somedoc "This is somedoc"
+
+        # TODO Plain 'ol TODO
+      end
+      """
+
+    code
+    |> to_source_file()
+    |> run_check(CredoTodoOrDie.Check)
+    |> assert_issue(fn issue ->
+      assert issue.message == "Found a TODO tag: Plain 'ol TODO"
+      assert issue.category == :design
+    end)
+  end
+
   test "Custom tag" do
     code =
       """

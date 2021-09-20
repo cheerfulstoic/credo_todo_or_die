@@ -1,7 +1,6 @@
 defmodule TodoOrDie.Alert do
-  # TODO: Fix these
-  @callback alert?(String.t) :: boolean()
-  @callback message(String.t) :: boolean()
+  @callback alert?(String.t, Map.t, Map.t) :: boolean()
+  @callback message(String.t, Map.t, Map.t) :: {:ok, String.t} | {:error, String.t}
 
   def alert?(item, context, options) do
     case module_for(item) do
@@ -16,6 +15,8 @@ defmodule TodoOrDie.Alert do
 
       module ->
         case module.message(item.expression, context, options) do
+          {:ok, ""} ->
+            "Found a #{item.tag} tag: #{item.string}"
           {:ok, message} ->
             "Found a #{item.tag} tag: #{item.string} (#{message})"
           {:error, message} ->
@@ -28,6 +29,8 @@ defmodule TodoOrDie.Alert do
     cond do
       String.match?(item.expression, ~r/\A\d\d\d\d-\d\d-\d\d\Z/) -> TodoOrDie.Alert.Date
       String.match?(item.expression, ~r/\A\d\d\d\d-\d\d-\d\d \d\d?:\d\d/) -> TodoOrDie.Alert.DateTime
+
+      item.expression == "" -> TodoOrDie.Alert.Plain
 
       true -> nil
     end

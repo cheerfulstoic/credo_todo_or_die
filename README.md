@@ -15,17 +15,58 @@ def get_user(id) do
 end
 ```
 
-# TODO: EXAMPLE OF DATETIME
+This will produce a credo alert on or after the day in question:
 
-# TODO: SHOW EXAMPLE OUTPUTS
+```
+┃ [D] → Found a TODO tag: Fix this hack when the database migration is complete (2 days past)
+┃       lib/my_app/users.ex:12 #(MyApp.Users)
+```
 
-Since the code isn't run at runtime, we don't fail on just any conditions
+It is also possible to specify a time with the date:
 
-## Params
+```
+# TODO(2022-02-02 12:34:56) The time has come!
+```
 
-# TODO: HOW TO SET PARAMS
+This can have a more precise description of how long it has been since the note's deadline has passed:
 
-# timezone (default to `"Etc/UTC"`).  Why config timezone?  Dev machine / CI server
+```
+┃ [D] → Found a TODO tag: Fix this hack when the database migration is complete (1 week, 2 days, 6 hours, 16 minutes past)
+┃       lib/my_app/users.ex:12 #(MyApp.Users)
+```
+
+## Configuration
+
+You can configure one or more versions of the plugin in your `.credo.exs` file:
+
+```elixir
+%{
+  configs: [
+    %{
+      name: "default",
+      checks: [
+        {CredoTodoOrDie.Check, tag_name: "BUG", timezone: "Europe/Stockholm", priority: :higher},
+        {CredoTodoOrDie.Check, tag_name: "FIXME", timezone: "Europe/Stockholm", priority: :high},
+        {CredoTodoOrDie.Check, tag_name: "TODO", timezone: "Europe/Stockholm", priority: :normal},
+        # Doesn't show up unless you use the `--strict` flag
+        {CredoTodoOrDie.Check, tag_name: "NOTE", timezone: "Europe/Stockholm", priority: :low},
+
+        # If you use `credo_todo_or_die` you'll probably want to disable these built-in checks
+        # as it will cause duplicates
+        # `credo_todo_or_die` will report standard notes (without parentheses) for the above `tag_name`s
+        {Credo.Check.Design.TagTODO, false},
+        {Credo.Check.Design.TagFIXME, false}
+      ],
+    }
+  ]
+}
+```
+
+The `timezone` param defaults to `"Etc/UTC"`.  It allows you to set the timezone of your development / CI machine for more accurate reporting of notes based on time.
+
+## Caveats
+
+While this checker is inspired by the ruby `todo_or_die` gem, it doesn't execute at runtime and can't do everything that gem can.  For example we can't fail on a condition defined by runtime code.
 
 ## Installation
 
