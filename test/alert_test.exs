@@ -26,7 +26,7 @@ defmodule TodoOrDie.AlertTest do
     assert Alert.alert?(item, %{current_datetime: parse_datetime("2021-02-15 12:34")}, options) == true
     assert Alert.alert?(item, %{current_datetime: parse_datetime("2021-02-16 12:35")}, options) == true
 
-    assert Alert.message(item, %{current_datetime: parse_datetime("2021-02-15 12:34:08")}, options) == "Found a TOTEST tag: Test String (8 seconds past)"
+    assert Alert.message(item, %{current_datetime: parse_datetime("2021-02-15 12:36:08")}, options) == "Found a TOTEST tag: Test String (2 minutes past)"
     assert Alert.message(item, %{current_datetime: parse_datetime("2021-02-16 12:35")}, options) == "Found a TOTEST tag: Test String (1 day, 1 minute past)"
   end
 

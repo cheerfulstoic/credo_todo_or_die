@@ -1,13 +1,11 @@
 defmodule TodoOrDie.Lines do
-  @tags ~w[TODO FIXME]
-
   alias TodoOrDie.Item
 
-  def items_for(lines) do
-    tags_string = "(#{Enum.join(@tags, "|")})"
-    regex = Regex.compile!("(\\A|[^\\?])#\\s*#{tags_string}\\(([^\)]+)\\):?\\s*(.+)", "i")
+  def items_for(lines, tag_name) do
+    regex = Regex.compile!("(\\A|[^\\?])#\\s*(#{tag_name})\\(([^\)]+)\\):?\\s*(.+)", "i")
 
     lines_with_index = Enum.with_index(lines)
+
     for {line, index} <- lines_with_index, result = line_match(line, regex), do: {result, index}
   end
 

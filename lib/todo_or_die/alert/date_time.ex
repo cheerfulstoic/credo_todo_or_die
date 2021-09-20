@@ -23,7 +23,8 @@ defmodule TodoOrDie.Alert.DateTime do
         duration_string =
           context.current_datetime
           |> Timex.diff(datetime)
-          |> Timex.Duration.from_microseconds()
+          |> div(1_000_000 * 60)
+          |> Timex.Duration.from_minutes()
           |> Timex.format_duration(:humanized)
 
         {:ok, "#{duration_string} past"}
