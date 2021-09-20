@@ -68,6 +68,10 @@ The `timezone` param defaults to `"Etc/UTC"`.  It allows you to set the timezone
 
 While this checker is inspired by the ruby `todo_or_die` gem, it doesn't execute at runtime and can't do everything that gem can.  For example we can't fail on a condition defined by runtime code.
 
+## Potential future improvements
+
+ * Notes like `TODO(#1234) xxxxx` which can alert when a specific GitHub(/other) issue is closed
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
