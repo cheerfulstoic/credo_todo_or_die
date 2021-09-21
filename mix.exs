@@ -4,8 +4,8 @@ defmodule CredoTodoOrDie.MixProject do
   def project do
     [
       app: :credo_todo_or_die,
-      version: "0.2.0",
-      elixir: "~> 1.12",
+      version: "0.2.1",
+      elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: "Exploding TODO/FIXME/etc... notes as a credo check",
