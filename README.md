@@ -70,6 +70,9 @@ While this checker is inspired by the ruby `todo_or_die` gem, it doesn't execute
 
 ## Potential future improvements
 
+ * Notes which reference a dependency version and alert when it has been reached ([see here](https://elixirforum.com/t/inspecting-dependency-package-version-at-runtime/24440/2))
+ * Notes which reference an OTP / Elixir version and alert when it has been reached
+
  * Notes like `TODO(#1234) xxxxx` which can alert when a specific GitHub(/other) issue is closed
 
 ## Installation
