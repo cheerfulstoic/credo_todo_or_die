@@ -1,6 +1,8 @@
 defmodule TodoOrDie.AlertTest do
   use ExUnit.Case, async: true
 
+  import Mox
+
   alias TodoOrDie.{Alert, Item}
 
   test "Date" do
@@ -30,12 +32,111 @@ defmodule TodoOrDie.AlertTest do
     assert Alert.message(item, %{current_datetime: parse_datetime("2021-02-16 12:35")}, options) == "Found a TOTEST tag: Test String (1 day, 1 minute past)"
   end
 
-  defp parse_datetime(string) do
-    {:ok, datetime} = Timex.parse(string, "{ISO:Extended}")
-    {:ok, datetime} = DateTime.from_naive(datetime, "Etc/UTC")
+  describe "Package" do
+    setup do
+      [context: %{packages_module: CredoTodoOrDie.Packages.Mock}]
+    end
 
-    datetime
+    test "Just a version is specified", %{context: context} do
+      mock_version :some_package, "1.2.3", 3
+
+      %Item{expression: "some_package@1.2.3", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+
+      message =
+      %Item{expression: "some_package@1.2.3", tag: "TOTEST", string: "Test String"}
+      |> Alert.message(context, %{})
+      assert(message == "Found a TOTEST tag: Test String (some_package requirement `>=1.2.3` matched, current version: 1.2.3)")
+
+
+      %Item{expression: "some_package@1.2.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> refute()
+    end
+
+    test ">= is used", %{context: context} do
+      mock_version :some_package, "1.2.3", 6
+
+      %Item{expression: "some_package@>=1.2.3", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+      %Item{expression: "some_package@>=1.2.2", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+      %Item{expression: "some_package@>=1.1.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+      %Item{expression: "some_package@>=0.3.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+
+      message =
+      %Item{expression: "some_package@>=0.3.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.message(context, %{})
+      assert(message == "Found a TOTEST tag: Test String (some_package requirement `>=0.3.4` matched, current version: 1.2.3)")
+
+
+      %Item{expression: "some_package@>=1.2.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> refute()
+    end
+
+    test "~= is used", %{context: context} do
+      mock_version :some_package, "1.2.3", 6
+
+      %Item{expression: "some_package@~>1.2.3", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+      %Item{expression: "some_package@~>1.2.2", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+
+      message =
+      %Item{expression: "some_package@~>1.2.2", tag: "TOTEST", string: "Test String"}
+      |> Alert.message(context, %{})
+      assert(message == "Found a TOTEST tag: Test String (some_package requirement `~>1.2.2` matched, current version: 1.2.3)")
+
+
+      %Item{expression: "some_package@~>1.2.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> refute()
+      %Item{expression: "some_package@~>1.1.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> refute()
+      %Item{expression: "some_package@~>0.3.4", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> refute()
+    end
+
+    test "Another package", %{context: context} do
+      mock_version :some_other_package, "3.2.1", 3
+
+      %Item{expression: "some_other_package@3.2.1", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> assert()
+
+      message =
+      %Item{expression: "some_other_package@3.2.1", tag: "TOTEST", string: "Test String"}
+      |> Alert.message(context, %{})
+      assert(message == "Found a TOTEST tag: Test String (some_other_package requirement `>=3.2.1` matched, current version: 3.2.1)")
+
+      %Item{expression: "some_other_package@3.2.2", tag: "TOTEST", string: "Test String"}
+      |> Alert.alert?(context, %{})
+      |> refute()
+    end
+
+    def mock_version(package, version, times \\ 1) do
+      CredoTodoOrDie.Packages.Mock
+      |> expect(:version, times, fn ^package -> version end)
+    end
+
+    defp parse_datetime(string) do
+      {:ok, datetime} = Timex.parse(string, "{ISO:Extended}")
+      {:ok, datetime} = DateTime.from_naive(datetime, "Etc/UTC")
+
+      datetime
+    end
   end
 end
-
 

@@ -30,6 +30,8 @@ defmodule TodoOrDie.Alert do
       String.match?(item.expression, ~r/\A\d\d\d\d-\d\d-\d\d\Z/) -> TodoOrDie.Alert.Date
       String.match?(item.expression, ~r/\A\d\d\d\d-\d\d-\d\d \d\d?:\d\d/) -> TodoOrDie.Alert.DateTime
 
+      String.match?(item.expression, ~r/\A[^@]+@([>=~]+)?[\d\.]+\Z/) -> TodoOrDie.Alert.Package
+
       item.expression == "" -> TodoOrDie.Alert.Plain
 
       true -> nil

@@ -4,7 +4,7 @@ defmodule CredoTodoOrDie.MixProject do
   def project do
     [
       app: :credo_todo_or_die,
-      version: "0.2.1",
+      version: "0.3.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -35,7 +35,8 @@ defmodule CredoTodoOrDie.MixProject do
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:timex, "~> 3.7"},
       {:tzdata, "~> 1.1"},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 end

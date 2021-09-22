@@ -66,13 +66,15 @@ defmodule CredoTodoOrDie.Check do
   # Passing in `current_datetime` as a param is only for tests
   def context(params) do
     current_datetime = Keyword.get(params, :current_datetime, DateTime.utc_now())
+    packages_module = Keyword.get(params, :packages_module, CredoTodoOrDie.Packages.Live)
 
     if current_datetime.zone_abbr != "UTC" do
       raise "current_datetime must always be UTC!"
     end
 
     %{
-      current_datetime: current_datetime
+      current_datetime: current_datetime,
+      packages_module: packages_module
     }
   end
 end

@@ -2,7 +2,7 @@
 
 `credo_todo_or_die` is a library with a [`credo`](https://github.com/rrrene/credo) check to allow making notes in code which will fail at an appropriate time.  For example:
 
-## Get a credo alert when a date has arrived:
+## Get a credo alert when a date/time has arrived:
 
 ```elixir
 def get_user(id) do
@@ -33,6 +33,22 @@ This can have a more precise description of how long it has been since the note'
 ```
 ┃ [D] → Found a TODO tag: Fix this hack when the database migration is complete (1 week, 2 days, 6 hours, 16 minutes past)
 ┃       lib/my_app/users.ex:12 #(MyApp.Users)
+```
+
+## Get a credo alert when a package matches a version requirement
+
+```
+# TODO(phoenix@10.0.0) Use the new, cool stuff!
+# TODO(phoenix@>=10.0.0) This is the same!
+
+# TODO(jason@~> 2.0.0) Only triggers after 2.0.0 and before 2.1.0
+```
+
+Credo alerts will look like:
+
+```
+┃ [D] ↗ Found a TODO tag: Use the new, cool stuff! (phoenix requirement `>=10.0.0` matched, current version: 10.0.1)
+┃       lib/my_app_web/controllers/user_controller.ex:22 #(MyAppWeb.UserController)
 ```
 
 ## Configuration
@@ -83,7 +99,7 @@ by adding `credo_todo_or_die` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:credo_todo_or_die, "~> 0.2.1"}
+    {:credo_todo_or_die, "~> 0.3.0"}
   ]
 end
 ```
