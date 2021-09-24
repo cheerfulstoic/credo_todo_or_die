@@ -49,7 +49,7 @@ defmodule CredoTodoOrDie.Check do
     |> Credo.Code.clean_charlists_strings_and_sigils()
     |> String.split("\n")
     |> TodoOrDie.Lines.items_for(tag_name)
-    |> Enum.filter(fn {item, line_no} ->
+    |> Enum.filter(fn {item, _line_no} ->
       TodoOrDie.Alert.alert?(item, context(params), alert_options)
     end)
   end

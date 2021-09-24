@@ -1,15 +1,11 @@
 defmodule TodoOrDie.Alert.Plain do
   @behaviour TodoOrDie.Alert
 
-  def alert?(string, context, options) do
+  def alert?(_string, _context, _options) do
     true
   end
 
-  def message("", context, options) do
+  def message("", _context, _options) do
     {:ok, ""}
   end
 end
-
-
-
-
