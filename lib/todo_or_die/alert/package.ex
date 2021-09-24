@@ -1,16 +1,14 @@
 defmodule TodoOrDie.Alert.Package do
   @behaviour TodoOrDie.Alert
 
-  def alert?(string, context, options) do
-    package = package(string, context)
-
-    Version.match?(package.current_version, package.requirement)
-  end
-
   def message(string, context, options) do
     package = package(string, context)
 
-    {:ok, "#{package.name} requirement `#{package.requirement}` matched, current version: #{package.current_version}"}
+    if Version.match?(package.current_version, package.requirement) do
+      {:ok, "#{package.name} requirement `#{package.requirement}` matched, current version: #{package.current_version}"}
+    else
+      {:ok, nil}
+    end
   end
 
   defp package(string, context) do
