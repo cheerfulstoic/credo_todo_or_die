@@ -28,15 +28,6 @@ defmodule CredoTodoOrDie.Check do
     |> Enum.map(&issue_for(issue_meta, &1, params))
   end
 
-  defp issue_for(issue_meta, {item, line_no}, params) do
-    format_issue(
-      issue_meta,
-      message: TodoOrDie.Alert.message(item, context(params), alert_options(params)),
-      line_no: line_no # ,
-      # trigger: trigger
-    )
-  end
-
   def items_with_index(source_file, tag_name, params) do
     # items_with_index_from_module_attributes(source_file, tag_name, include_doc?) ++
       items_with_index_from_comments(source_file, tag_name, params)
@@ -49,9 +40,18 @@ defmodule CredoTodoOrDie.Check do
     |> Credo.Code.clean_charlists_strings_and_sigils()
     |> String.split("\n")
     |> TodoOrDie.Lines.items_for(tag_name)
-    |> Enum.filter(fn {item, _line_no} ->
-      TodoOrDie.Alert.alert?(item, context(params), alert_options)
+    |> Enum.map(fn {message, _line_no} ->
+      {TodoOrDie.Alert.message(message, context(params), alert_options), line_no}
     end)
+    |> Enum.reject(fn {message, line_no} -> is_nil(message) end)
+  end
+
+  defp issue_for(issue_meta, {message, line_no}, params) do
+    format_issue(
+      issue_meta,
+      message: message,
+      line_no: line_no
+    )
   end
 
   def alert_options(params) do
@@ -67,6 +67,7 @@ defmodule CredoTodoOrDie.Check do
   def context(params) do
     current_datetime = Keyword.get(params, :current_datetime, DateTime.utc_now())
     packages_module = Keyword.get(params, :packages_module, CredoTodoOrDie.Packages.Live)
+    httpoison_module = Keyword.get(params, :httpoison_module, HTTPoison)
 
     if current_datetime.zone_abbr != "UTC" do
       raise "current_datetime must always be UTC!"
@@ -74,7 +75,8 @@ defmodule CredoTodoOrDie.Check do
 
     %{
       current_datetime: current_datetime,
-      packages_module: packages_module
+      packages_module: packages_module,
+      httpoison_module: httpoison_module
     }
   end
 end
