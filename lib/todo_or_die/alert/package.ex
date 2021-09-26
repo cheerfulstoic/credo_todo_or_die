@@ -1,7 +1,7 @@
 defmodule TodoOrDie.Alert.Package do
   @behaviour TodoOrDie.Alert
 
-  def message(string, context, options) do
+  def message(string, context, _options) do
     package = package(string, context)
 
     if Version.match?(package.current_version, package.requirement) do
@@ -24,7 +24,3 @@ defmodule TodoOrDie.Alert.Package do
     %{name: name, requirement: requirement, current_version: current_version}
   end
 end
-
-
-
-
