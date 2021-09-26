@@ -40,7 +40,7 @@ defmodule CredoTodoOrDie.Check do
     |> Credo.Code.clean_charlists_strings_and_sigils()
     |> String.split("\n")
     |> TodoOrDie.Lines.items_for(tag_name)
-    |> Enum.map(fn {message, line_no} ->
+    |> Enum.map(fn {message, _line_no} ->
       {TodoOrDie.Alert.message(message, context(params), alert_options), line_no}
     end)
     |> Enum.reject(fn {message, line_no} -> is_nil(message) end)
