@@ -51,6 +51,19 @@ Credo alerts will look like:
 ┃       lib/my_app_web/controllers/user_controller.ex:22 #(MyAppWeb.UserController)
 ```
 
+## Get a credo alert when a GitHub issue / pull request has been closed
+
+```
+# TODO(phoenixframework/phoenix#4321) Refactor when support has been added
+```
+
+Credo alerts will look like:
+
+```
+┃ [D] ↗ Found a TODO tag: Refactor when support has been added (issue #4321 in repo phoenixframework/phoenix has been closed)
+┃       lib/my_app/user.ex:22 #(MyApp.User)
+```
+
 ## Configuration
 
 You can configure one or more versions of the plugin in your `.credo.exs` file:
