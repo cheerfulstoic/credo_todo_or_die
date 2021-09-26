@@ -1,4 +1,6 @@
 defmodule TodoOrDie.Alert.DateTime do
+  @moduledoc "Implementation of tags which alert on date/time passing"
+
   @behaviour TodoOrDie.Alert
 
   def message(string, context, options) do

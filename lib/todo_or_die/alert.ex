@@ -1,4 +1,6 @@
 defmodule TodoOrDie.Alert do
+  @moduledoc "Base logic around handling alerts"
+
   @callback message(String.t(), Map.t(), Map.t()) :: {:ok, String.t()} | {:error, String.t()}
 
   def message(item, context, options) do

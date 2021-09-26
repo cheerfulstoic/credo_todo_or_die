@@ -43,10 +43,10 @@ defmodule CredoTodoOrDie.Check do
     |> Enum.map(fn {message, line_no} ->
       {TodoOrDie.Alert.message(message, context(params), alert_options), line_no}
     end)
-    |> Enum.reject(fn {message, line_no} -> is_nil(message) end)
+    |> Enum.reject(fn {message, _line_no} -> is_nil(message) end)
   end
 
-  defp issue_for(issue_meta, {message, line_no}, params) do
+  defp issue_for(issue_meta, {message, line_no}, _params) do
     format_issue(
       issue_meta,
       message: message,

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for alerts on GitHub issues being closed. @cheerfulstoic
 - fix unused arguments compiler warnings (#1 / @joseph-lozano)
 
+### Changed
+- `mix format`
+
 ## [0.3.0] - 2021-09-22
 ### Added
 - Support for specifying exploding notes based on package versions. @cheerfulstoic

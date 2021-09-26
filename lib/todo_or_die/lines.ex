@@ -1,4 +1,6 @@
 defmodule TodoOrDie.Lines do
+  @moduledoc "Handling of code lines.  Produces TodoOrDie.Item structs"
+
   alias TodoOrDie.Item
 
   def items_for(lines, tag_name) do

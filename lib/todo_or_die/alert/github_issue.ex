@@ -1,7 +1,9 @@
 defmodule TodoOrDie.Alert.GitHubIssue do
+  @moduledoc "Implementation of tags which alert on Github issues being closed"
+
   @behaviour TodoOrDie.Alert
 
-  def message(string, context, options) do
+  def message(string, context, _options) do
     [owner_repo, issue_number] = String.split(string, "#")
 
     url = "https://api.github.com/repos/#{owner_repo}/issues/#{issue_number}"

@@ -1,4 +1,6 @@
 defmodule TodoOrDie.Alert.Package do
+  @moduledoc "Implementation of tags which alert on package version expressions"
+
   @behaviour TodoOrDie.Alert
 
   def message(string, context, _options) do
