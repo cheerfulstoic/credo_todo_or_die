@@ -5,6 +5,7 @@ defmodule TodoOrDie.Alert.GitHubIssue do
     [owner_repo, issue_number] = String.split(string, "#")
 
     url = "https://api.github.com/repos/#{owner_repo}/issues/#{issue_number}"
+
     case context.httpoison_module.get(url) do
       {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->
         %{"state" => state} = Jason.decode!(body)
@@ -25,8 +26,3 @@ defmodule TodoOrDie.Alert.GitHubIssue do
     end
   end
 end
-
-
-
-
-

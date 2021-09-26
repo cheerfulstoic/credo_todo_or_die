@@ -7,7 +7,9 @@ defmodule TodoOrDie.Alert.DateTime do
         {:ok, datetime} = DateTime.from_naive(datetime, options.timezone)
 
         case DateTime.compare(context.current_datetime, datetime) do
-          :lt -> {:ok, nil}
+          :lt ->
+            {:ok, nil}
+
           _ ->
             duration_string =
               context.current_datetime
@@ -19,10 +21,8 @@ defmodule TodoOrDie.Alert.DateTime do
             {:ok, "#{duration_string} past"}
         end
 
-      {:error, message} -> {:error, message}
+      {:error, message} ->
+        {:error, message}
     end
   end
 end
-
-
-

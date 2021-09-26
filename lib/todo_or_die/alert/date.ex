@@ -14,10 +14,8 @@ defmodule TodoOrDie.Alert.Date do
           diff -> {:ok, "#{diff} days past"}
         end
 
-      {:error, message} -> {:error, message}
+      {:error, message} ->
+        {:error, message}
     end
   end
 end
-
-
-

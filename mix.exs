@@ -17,7 +17,7 @@ defmodule CredoTodoOrDie.MixProject do
   def package do
     [
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/cheerfulstoic/credo_todo_or_die"},
+      links: %{"GitHub" => "https://github.com/cheerfulstoic/credo_todo_or_die"}
     ]
   end
 

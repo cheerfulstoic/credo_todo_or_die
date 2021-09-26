@@ -3,4 +3,3 @@ defmodule TodoOrDie.Item do
 
   defstruct ~w[tag expression string]a
 end
-

@@ -30,7 +30,7 @@ defmodule CredoTodoOrDie.Check do
 
   def items_with_index(source_file, tag_name, params) do
     # items_with_index_from_module_attributes(source_file, tag_name, include_doc?) ++
-      items_with_index_from_comments(source_file, tag_name, params)
+    items_with_index_from_comments(source_file, tag_name, params)
   end
 
   defp items_with_index_from_comments(source_file, tag_name, params) do
@@ -40,7 +40,7 @@ defmodule CredoTodoOrDie.Check do
     |> Credo.Code.clean_charlists_strings_and_sigils()
     |> String.split("\n")
     |> TodoOrDie.Lines.items_for(tag_name)
-    |> Enum.map(fn {message, _line_no} ->
+    |> Enum.map(fn {message, line_no} ->
       {TodoOrDie.Alert.message(message, context(params), alert_options), line_no}
     end)
     |> Enum.reject(fn {message, line_no} -> is_nil(message) end)
@@ -56,6 +56,7 @@ defmodule CredoTodoOrDie.Check do
 
   def alert_options(params) do
     timezone = Keyword.get(params, :timezone, "Etc/UTC")
+
     if !Timex.is_valid_timezone?(timezone) do
       raise "credo_todo_or_time: timezone specified is invalid: #{timezone}"
     end

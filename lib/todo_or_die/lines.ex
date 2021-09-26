@@ -6,12 +6,16 @@ defmodule TodoOrDie.Lines do
 
     lines_with_index = Enum.with_index(lines)
 
-    for {line, index} <- lines_with_index, result = line_match(line, regex, tag_name), do: {result, index}
+    for {line, index} <- lines_with_index,
+        result = line_match(line, regex, tag_name),
+        do: {result, index}
   end
 
   defp line_match(line, regex, tag_name) do
     case Regex.run(regex, line) do
-      nil -> nil
+      nil ->
+        nil
+
       [_, _, expression, string] ->
         %Item{
           tag: String.to_atom(tag_name),

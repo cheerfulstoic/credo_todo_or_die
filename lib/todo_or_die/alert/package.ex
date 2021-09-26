@@ -5,7 +5,8 @@ defmodule TodoOrDie.Alert.Package do
     package = package(string, context)
 
     if Version.match?(package.current_version, package.requirement) do
-      {:ok, "#{package.name} requirement `#{package.requirement}` matched, current version: #{package.current_version}"}
+      {:ok,
+       "#{package.name} requirement `#{package.requirement}` matched, current version: #{package.current_version}"}
     else
       {:ok, nil}
     end
@@ -14,7 +15,8 @@ defmodule TodoOrDie.Alert.Package do
   defp package(string, context) do
     [name, requirement] = String.split(string, "@")
 
-    requirement = if(String.match?(requirement, ~r/\A[>~=]/), do: requirement, else: ">=#{requirement}")
+    requirement =
+      if(String.match?(requirement, ~r/\A[>~=]/), do: requirement, else: ">=#{requirement}")
 
     current_version =
       name
