@@ -235,7 +235,7 @@ defmodule TodoOrDie.AlertTest do
 
       assert(
         message ==
-          "Found a TOTEST tag: Test String (WAS UNABLE TO CHECK THE ISSUE - GOT ERROR: `{:tls_alert, 'internal error'}`)"
+          "Found a TOTEST tag: Test String (WAS UNABLE TO CHECK THE ISSUE - GOT ERROR: `{:tls_alert, ~c\"internal error\"}`)"
       )
     end
   end
