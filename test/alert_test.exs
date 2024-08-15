@@ -226,7 +226,7 @@ defmodule TodoOrDie.AlertTest do
       HTTPoison.Base.Mock
       |> expect(:get, fn
         "https://api.github.com/repos/user123/repo321/issues/1234" ->
-          {:error, %HTTPoison.Error{id: nil, reason: {:tls_alert, 'internal error'}}}
+          {:error, %HTTPoison.Error{id: nil, reason: {:tls_alert, ~c"internal error"}}}
       end)
 
       message =
