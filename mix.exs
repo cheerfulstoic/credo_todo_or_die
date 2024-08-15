@@ -37,7 +37,7 @@ defmodule CredoTodoOrDie.MixProject do
       {:tzdata, "~> 1.1"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:mox, "~> 1.0", only: :test},
-      {:httpoison, "~> 1.7"}
+      {:httpoison, "~> 1.7 or ~> 2.0"}
     ]
   end
 end
