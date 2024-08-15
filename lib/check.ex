@@ -50,7 +50,7 @@ defmodule CredoTodoOrDie.Check do
     format_issue(
       issue_meta,
       message: message,
-      line_no: line_no
+      line_no: line_no + 1
     )
   end
 
