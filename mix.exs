@@ -4,7 +4,7 @@ defmodule CredoTodoOrDie.MixProject do
   def project do
     [
       app: :credo_todo_or_die,
-      version: "0.4.0",
+      version: "0.4.1",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
